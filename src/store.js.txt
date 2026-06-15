@@ -1,0 +1,23 @@
+ import { create } from 'zustand';
+
+export const useTaskStore = create((set) => ({
+  tasks: [
+    { id: '1', title: 'Design the graphical interface', status: 'todo' },
+    { id: '2', title: 'Connect State Management', status: 'in-progress' },
+    { id: '3', title: 'Setup development environment', status: 'done' },
+  ],
+  addTask: (title) =>
+    set((state) => ({
+      tasks: [...state.tasks, { id: Date.now().toString(), title, status: 'todo' }],
+    })),
+  deleteTask: (id) =>
+    set((state) => ({
+      tasks: state.tasks.filter((task) => task.id !== id),
+    })),
+  moveTask: (id, newStatus) =>
+    set((state) => ({
+      tasks: state.tasks.map((task) =>
+        task.id === id ? { ...task, status: newStatus } : task
+      ),
+    })),
+}));
